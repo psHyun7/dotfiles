@@ -1,3 +1,5 @@
+.aitk
+.azure
 .CFUserTextEncoding
 .config/cache
 .config/local/share
@@ -13,7 +15,9 @@
 .python_history
 .npm
 .ssh
+.Trash
 .viminfo
 .vscode/argv.json
 .vscode/extensions
+scripts/auto_stow/bin
 zsh/plugins
