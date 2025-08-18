@@ -1,0 +1,4 @@
+-o ~/youtube/%(playlist_title|uploader)s/%(playlist_index|upload_date)s - %(title)s.%(ext)s
+--merge-output-format mkv
+-f "bv*+ba/b"
+
