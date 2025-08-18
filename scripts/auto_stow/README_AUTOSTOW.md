@@ -7,7 +7,8 @@ Build
 
 ```bash
 cd ~/.dotfiles/scripts/auto_stow
-go build -o bin/auto_stow_watch auto_stow_watch.go
+go build -o bin/auto_stow auto_stow_watch.go
+ln -sf ~/.dotfiles/scripts/auto_stow/bin/auto_stow $GOPATH/bin/auto_stow
 ```
 
 Run

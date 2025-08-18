@@ -6,9 +6,9 @@
     <string>com.autostow</string>
     <key>ProgramArguments</key>
     <array>
-  <string>/Users/sung_/.dotfiles/scripts/auto_stow_watch_go</string>
+  <string>$GOPATH/bin/auto_stow</string>
   <string>--dotfiles-dir</string>
-  <string>/Users/sung_/.dotfiles</string>
+  <string>$HOME/.dotfiles</string>
     </array>
     <key>RunAtLoad</key>
     <true/>

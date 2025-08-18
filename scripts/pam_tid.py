@@ -4,7 +4,6 @@ Ensures Touch ID is enabled for sudo by inserting 'auth sufficient pam_tid.so'
 into /etc/pam.d/sudo if not already present.
 
 Copyright (c) 2023 Paul Durivage
-Modified by Sung for resilience and logging.
 """
 
 import argparse
