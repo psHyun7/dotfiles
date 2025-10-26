@@ -6,28 +6,30 @@
 
   ;; When any non-chord activation happens, this timeout begins. Until this timeout expires
   ;; all inputs will immediately skip chords processing and be processed by the active layer.
-  ;; chords-v2-min-idle 250
+  chords-v2-min-idle 200
 )
+
+;; Key Mappings https://raw.githubusercontent.com/jtroo/kanata/refs/heads/main/parser/src/keys/mod.rs
 
 ;; Variables
 (defvar
- tap-time 300
- hold-time 300
- chord-time 60
+ tap-time 245
+ hold-time 250
+ chord-time 80
  subl-time 200
 )
 
 ;; defsrc for the MacBook Pro
 (defsrc
-  esc    f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12
-  grv    1    2    3    4    5    6    7    8    9    0    -    =    bspc
-  tab    q    w    e    r    t    y    u    i    o    p    [    ]    \
-  caps   a    s    d    f    g    h    j    k    l    ;    '    ret
-  lsft   z    x    c    v    b    n    m    ,    .    /    ▲   rsft
-  fn   lctl  lalt lmet          spc         rmet ralt ◀    ▼    ▶
+  esc    f1     f2     f3     f4     f5     f6     f7     f8     f9     f10    f11    f12
+  grv    1      2      3      4      5      6      7      8      9      0      -      =      bspc
+  tab    q      w      e      r      t      y      u      i      o      p      [      ]      \
+  caps   a      s      d      f      g      h      j      k      l      ;      '      ret
+  lsft   z      x      c      v      b      n      m      ,      .      /      ▲      rsft
+  fn     lctl   lalt   lmet                spc            rmet   ralt   ◀      ▼      ▶
 )
 
-;; scams / hypers
+;; All Aliases
 (defalias
   hypern S-C-A-M-n ;; Tot app
   hyperl S-C-A-M-l ;; Bitwarden
@@ -36,47 +38,49 @@
   bkcmd (tap-hold $tap-time $hold-time bspc lmet)
 
   ;; Modifier keys
-  mlmet (tap-hold $tap-time $hold-time d lmet)
-  mrmet (tap-hold $tap-time $hold-time k rmet)
-  mlalt (tap-hold $tap-time $hold-time f lalt)
-  mralt (tap-hold $tap-time $hold-time j ralt)
-  mlctl (tap-hold $tap-time $hold-time a lctl)
-  mrctl (tap-hold $tap-time $hold-time ; rctl)
+  mlmet (tap-hold-press $tap-time $hold-time d lmet)
+  mrmet (tap-hold-press $tap-time $hold-time k rmet)
+  mlalt (tap-hold-press $tap-time $hold-time f lalt)
+  mralt (tap-hold-press $tap-time $hold-time j ralt)
+  mlctl (tap-hold-press $tap-time $hold-time a lctl)
+  mrctl (tap-hold-press $tap-time $hold-time ; rctl)
 
   ;; Right Command: tap = F18, hold = nav layer
-  mnavi (tap-hold-press $tap-time $hold-time esc (layer-toggle navi))
+  mnavi (tap-hold-press $tap-time $hold-time esc (layer-while-held navi))
 
   ;; Other layers tap-hold
-  msyst (tap-hold $tap-time $hold-time s (layer-toggle syst))
+  mlsys (tap-hold $tap-time $hold-time s (layer-while-held syst))
+  mrsys (tap-hold $tap-time $hold-time l (layer-while-held syst))
 
   ;; Hyper
-  mhypr (tap-hold $tap-time $hold-time spc (multi lsft lctl lalt lmet)) ;; Hyper key
+  mhypr (tap-hold $tap-time $hold-time spc (multi lsft lctl lalt lmet))
 )
 
 ;; Main layer
 (deflayer main
-  XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX
-  XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX
-  XX     q      w      e      r      t      y      u      i      o      p      [      ]      \
-  @mnavi @mlctl @msyst @mlmet @mlalt g      h      @mralt @mrmet @msyst @mrctl '      XX
-  XX     z      x      c      v      b      n      m      ,      .      /      ▲      XX
-  XX     XX     XX     @bkcmd            spc              f18    XX     ◀      ▼      ▶
+  _      f1     f2     f3     f4     f5     f6     f7     f8     f9     f10    f11    f12
+  grv    1      2      3      4      5      6      7      8      9      0      -      =      bspc
+  tab    q      w      e      r      t      y      u      i      o      p      [      ]      \
+  @mnavi @mlctl @mlsys @mlmet @mlalt g      h      @mralt @mrmet @mrsys @mrctl '      _
+  _      z      x      c      v      b      n      m      ,      .      /      ▲      _
+  _      _      _      @bkcmd           spc               f18    _      ◀      ▼      ▶
 )
 
 (deflayer navi
-  XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX
-  XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX
-  XX     q      w      e      r      t      y      u      i      up      p      [      ]      \
-  XX     a      s      d      f      g      h      left   down   right  XX     XX     XX
-  XX     z      x      c      v      b      n      m      ,      .      /      ▲      XX
-  XX     XX     XX     XX                 spc             f18    XX     ◀      ▼      ▶
+  _      _      _      _      _      _      _      _      _      _      _      _      _
+  _      _      _      _      _      _      _      _      _      _      _      _      _      _
+  _      q      w      e      r      t      y      pgup   ▲      pgdn   _      _      _      _
+  _      a      s      d      f      g      home   ◀      ▼      ▶      end    _      _
+  _      z      x      c      v      b      n      m      ,      .      /      ▲      _
+  _      _      _      _                spc               _      _      ◀      ▼      ▶
 )
 
 (deflayer syst
-  XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX
-  XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX     XX
-  XX     q      w      e      r      t      y      u      i      o      p      [      ]      \
-  XX     a      s      d      f      g      h      j      k      l      ;      '      ret
-  XX     z      x      c      v      b      n      m      ,      .      /      ▲      XX
-  XX     XX     XX     XX                 spc             f18    XX     ◀      ▼      ▶
+  _      _      _      _      _      _      _      _      _      _      _      _      _
+  _      _      _      _      _      _      _      _      _      _      _      _      _      _
+  _      S-;    S-,    S-.    S-'    .      S-7    S--    [      ]      S-5    ,      S--    \
+  _      S-1    -      S-=    =      S-3    S-\    S-2    S-9    S-0    ;      '      ret
+  _      S-`    /      S-8    \      `      S-6    S-4    S-[    S-]    S-/    ▲      _
+  _      _      _      _                spc               _      _      ◀      ▼      ▶
 )
+
