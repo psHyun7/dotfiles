@@ -15,6 +15,8 @@
 (defvar
  tap-time 245
  hold-time 250
+ tap-time-long 300
+ hold-time-long 315
  chord-time 80
  subl-time 200
 )
@@ -34,26 +36,30 @@
   hypern S-C-A-M-n ;; Tot app
   hyperl S-C-A-M-l ;; Bitwarden
 
-  ;; Left Command: tap = backspace, hold = lmet
-  bkcmd (tap-hold $tap-time $hold-time bspc lmet)
+  ;; Homerow Modifiers
+  mlmet (tap-hold $tap-time $hold-time d lmet)
+  mrmet (tap-hold $tap-time $hold-time k rmet)
+  mlalt (tap-hold $tap-time $hold-time f lalt)
+  mralt (tap-hold $tap-time $hold-time j ralt)
+  mlctl (tap-hold $tap-time $hold-time a lctl)
+  mrctl (tap-hold $tap-time $hold-time ; rctl)
 
-  ;; Modifier keys
-  mlmet (tap-hold-press $tap-time $hold-time d lmet)
-  mrmet (tap-hold-press $tap-time $hold-time k rmet)
-  mlalt (tap-hold-press $tap-time $hold-time f lalt)
-  mralt (tap-hold-press $tap-time $hold-time j ralt)
-  mlctl (tap-hold-press $tap-time $hold-time a lctl)
-  mrctl (tap-hold-press $tap-time $hold-time ; rctl)
+  ;; Right Option: tap = (change lang) F18, hold = func layer
+  lngfn (tap-hold-press $tap-time $hold-time f18 (layer-while-held func))
 
-  ;; Right Command: tap = F18, hold = nav layer
-  mnavi (tap-hold-press $tap-time $hold-time esc (layer-while-held navi))
+  ;; Left Command: tap = backspace, hold = nav layer
+  bknav (tap-hold $tap-time $hold-time bspc (layer-while-held navi))
+
+  ;; Right Command: tap = return, hold = nav layer
+  rtnav (tap-hold $tap-time $hold-time ret (layer-while-held navi))
+
+  ;; Hyper: tap = space, hold = hyper
+  mhypr (tap-hold $tap-time $hold-time spc (multi lsft lctl lalt lmet))
 
   ;; Other layers tap-hold
   mlsys (tap-hold $tap-time $hold-time s (layer-while-held syst))
   mrsys (tap-hold $tap-time $hold-time l (layer-while-held syst))
-
-  ;; Hyper
-  mhypr (tap-hold $tap-time $hold-time spc (multi lsft lctl lalt lmet))
+  mfunc (tap-hold-press $tap-time $hold-time fn (layer-while-held func))
 )
 
 ;; Main layer
@@ -61,26 +67,34 @@
   _      f1     f2     f3     f4     f5     f6     f7     f8     f9     f10    f11    f12
   grv    1      2      3      4      5      6      7      8      9      0      -      =      bspc
   tab    q      w      e      r      t      y      u      i      o      p      [      ]      \
-  @mnavi @mlctl @mlsys @mlmet @mlalt g      h      @mralt @mrmet @mrsys @mrctl '      _
+  esc   @mlctl @mlsys @mlmet @mlalt g      h      @mralt @mrmet @mrsys @mrctl '      _
   _      z      x      c      v      b      n      m      ,      .      /      ▲      _
-  _      _      _      @bkcmd           spc               f18    _      ◀      ▼      ▶
+  lctl   @mfunc _      @bknav         @mhypr              @rtnav @lngfn ◀      ▼      ▶
 )
 
 (deflayer navi
   _      _      _      _      _      _      _      _      _      _      _      _      _
-  _      _      _      _      _      _      _      _      _      _      _      _      _      _
-  _      q      w      e      r      t      y      pgup   ▲      pgdn   _      _      _      _
-  _      a      s      d      f      g      home   ◀      ▼      ▶      end    _      _
-  _      z      x      c      v      b      n      m      ,      .      /      ▲      _
-  _      _      _      _                spc               _      _      ◀      ▼      ▶
+  _      7      8      9      _      _      _      _      _      _      _      _      _      _
+  _      4      5      6      _      t      y      pgup   ▲      pgdn   _      _      _      _
+  _      1      2      3      _      g      home   ◀      ▼      ▶      end    _      _
+  _      z      0      c      v      b      n      m      ,      .      /      ▲      _
+  _      lrld   _      _              @mhypr              _      _      ◀      ▼      ▶
 )
 
 (deflayer syst
   _      _      _      _      _      _      _      _      _      _      _      _      _
   _      _      _      _      _      _      _      _      _      _      _      _      _      _
-  _      S-;    S-,    S-.    S-'    .      S-7    S--    [      ]      S-5    ,      S--    \
+  _      S-;    S-,    S-.    S-'    .      S-7    S--    [      ]      S-5    ,      S--    _
   _      S-1    -      S-=    =      S-3    S-\    S-2    S-9    S-0    ;      '      ret
   _      S-`    /      S-8    \      `      S-6    S-4    S-[    S-]    S-/    ▲      _
-  _      _      _      _                spc               _      _      ◀      ▼      ▶
+  _      _      _      _              @mhypr              _      _      ◀      ▼      ▶
 )
 
+(deflayer func
+  _      🔅     🔆     mctl   sls    dtn    dnd     ◀◀     ▶⏸     ▶▶     🔇     🔉      🔊
+  _      _      _      _      _      _      _      _      _      _      _      _      _      del
+  _      _      _      _      _      _      _      _      _      _      _      _      _      _
+  _      _      _      _      _      _      _      _      _      _      _      _      _
+  _      _      _      _      _      _      _      _      _      _      _      ▲      _
+  lctl   fn     _      del            @mhypr              _      _      home   ▼      end
+)
