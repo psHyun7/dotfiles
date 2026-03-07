@@ -1,0 +1,105 @@
+(defcfg
+  process-unmapped-keys yes
+  log-layer-changes no
+  danger-enable-cmd yes
+  concurrent-tap-hold yes
+
+  ;; When any non-chord activation happens, this timeout begins. Until this timeout expires
+  ;; all inputs will immediately skip chords processing and be processed by the active layer.
+  ;; chords-v2-min-idle 250
+)
+
+;; Key Mappings https://raw.githubusercontent.com/jtroo/kanata/refs/heads/main/parser/src/keys/mod.rs
+
+;; Variables
+(defvar
+ tap-time 250
+ hold-time 250
+ chord-time 60
+ subl-time 200
+)
+
+;; defsrc for the LofreeFlowLite84
+(defsrc
+  esc    f1     f2     f3     f4     f5     f6     f7     f8     f9     f10    f11    f12    prnt   ins    del
+  grv    1      2      3      4      5      6      7      8      9      0      -      =      bspc   home
+  tab     q      w      e      r      t      y      u      i      o      p      [      ]      \      end
+  caps     a      s      d      f      g      h      j      k      l      ;      '      ret       pgup
+  lsft      z      x      c      v      b      n      m      ,      .      /      rsft     ▲      pgdn
+  lctl   lalt   lmet                    spc                    rmet   fn     ralt   ◀      ▼      ▶
+)
+
+;; All Aliases
+(defalias
+  hyprn S-C-A-M-n ;; Tot app
+  hyprl S-C-A-M-l ;; Bitwarden
+
+  ;; Left Command: tap = backspace, hold = lmet
+  bkcmd (tap-hold $tap-time $hold-time bspc lmet)
+
+  ;; Modifier keys
+  mlmet (tap-hold $tap-time $hold-time d lmet)
+  mrmet (tap-hold $tap-time $hold-time k rmet)
+  mlalt (tap-hold $tap-time $hold-time f lalt)
+  mralt (tap-hold $tap-time $hold-time j ralt)
+  mlctl (tap-hold $tap-time $hold-time a lctl)
+  mrctl (tap-hold $tap-time $hold-time ; rctl)
+
+  ;; Right Command: tap = F18, hold = nav layer
+  mnavi (tap-hold-press $tap-time $hold-time spc (layer-toggle navi))
+
+  ;; Other layers tap-hold
+  msyst (tap-hold $tap-time $hold-time esc (layer-toggle syst))
+
+  ;; Right Command: tap = F18, hold = Hyper
+  mhypr (tap-hold $tap-time $hold-time f18 (multi lsft lctl lalt lmet))
+)
+
+;; Main layer
+(deflayer main
+  esc   f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12  prnt  ins   del
+  grv   1    2    3    4    5    6    7    8    9    0    -    =    bspc  home
+  tab    q    w    e    r    t    y    u    i    o    p    [    ]    \     end
+  caps    a    s    d    f    g    h    j    k    l    ;    '     ret    pgup
+  lsft     z    x    c    v    b    n    m    ,    .    /    rsft   ▲    pgdn
+  lctl lalt lmet                spc               rmet fn ralt  ◀   ▼   ▶
+@mlctl @msyst @mlmet @mlalt
+  _     _    _    _    _    _    _    _    _    _    _    _    _    f16   f17   _
+  _     _    _    _    _    _    _    _    _    _    _    -    _    _     _
+  _      _    _    _    _    _    _    _    _    _    _    _    _    _     _
+  @msyst  _    @mlctl _    _    _    _    _    _    _    _    _      _     _
+  _        _    _    _    _    _    _    _    _    -    _    _      _    _
+  _    _    @bkcmd        @mnavi          @mhypr fn _    ◀   ▼   ▶
+
+  _     _     _     _     _     _     _     _     _     _     _     _     _     f16   f17   _
+  _     _     _     _     _     _     _     _     _     _     _     _     _     _     _
+  _      _     _     _     _     _     _     _     _     _     _     _     _     _     _
+  @msyst  _     @mlctl _     _     _     _     _     _     _     _     _      _        _
+  _        _     _     _     _     _     _     _     _     _     _     _       _      _
+  _     _     _                     _                 _     _     _      _     _      _
+)
+
+(deflayer navi
+  _     _     _     _     _     _     _     _     _     _     _     _     _     _     _     _
+  _     _     _     _     _     _     _     _     _     _     _     _     _     _     _
+  _      _     _     _     _     _     _     _     ▲     _     _     _     _     _     _
+  _       _     _     _     _     _     _     ◀     ▼     ▶     _     _      _        _
+  _        _     _     _     _     _     _     _     _     _     _     _       _      _
+  _     _     _                     _                 _     _     _      _     _      _
+)
+
+(deflayer syst
+  esc    f1     f2     f3     f4     f5     f6     f7     f8     f9     f10    f11    f12    prnt   ins    del
+  grv    1      2      3      4      5      6      7      8      9      0      -      =      bspc   home
+  tab     q      w      e      r      t      y      u      i      o      p      [      ]      \      end
+  caps     a      s      d      f      g      h      j      k      l      ;      '      ret       pgup
+  lsft      z      x      c      v      b      n      m      ,      .      /      rsft     ▲      pgdn
+  lctl   lalt   lmet                    spc                    rmet   fn     ralt   ◀      ▼      ▶
+
+  _      _      _      _      _      _      _      _      _      _      _      _      _      _      _      _
+  _      _      _      _      _      _      _      _      _      _      _      _      _      _      _
+  _       _      _      _      _      _      _      _      _      _      _      _      _      _      _
+  _        _      _      _      _      _      _      _      _      _      _      _       _        _
+  _         _      _      _      _      _      _      _      _      _      _       _       _      _
+  _      _      _                        _                     _      _      _       _     _      _
+)
