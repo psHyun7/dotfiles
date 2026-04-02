@@ -1,7 +1,6 @@
 (defcfg
   process-unmapped-keys yes
   log-layer-changes no
-  danger-enable-cmd yes
   concurrent-tap-hold yes
 
   ;; When any non-chord activation happens, this timeout begins. Until this timeout expires
@@ -20,6 +19,8 @@
  chord-time 80
  subl-time 200
 )
+
+(include macbookpro.secret.kbd)
 
 ;; defsrc for the MacBook Pro
 (defsrc
@@ -97,7 +98,7 @@
 (deflayer func
   _      f1     f2     f3     f4     f5     f6     f7     f8     f9     f10    f11    f12
   _      _      _      _      _      _      _      _      _      _      _      _      _      del
-  _      _      _      _      _      _      _      _      _      @cadel _      _      _      _
+  _      _      _      _      _      _      _      _      _      @cadel @pinin _      _      _
   _      _      _      _      _      _      _      _      _      @bwfll _      _      _
   _      _      _      _      _      _      _      _      _      _      _      ▲      _
   lctl   fn     _      del            @mhypr              _      _      home   ▼      end

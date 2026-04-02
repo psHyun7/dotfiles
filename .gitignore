@@ -2,6 +2,7 @@
 .azure
 .CFUserTextEncoding
 .config/cache
+.config/kanata/macbookpro.secret.kbd
 .config/local/share
 .config/nvim
 .config/zsh/.zcompdump
