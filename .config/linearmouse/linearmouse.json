@@ -1,5 +1,5 @@
 {
-  "$schema" : "https:\/\/schema.linearmouse.app\/0.10.2",
+  "$schema" : "https:\/\/schema.linearmouse.app\/0.10.3",
   "schemes" : [
     {
       "buttons" : {
@@ -41,6 +41,27 @@
           "productName" : "USB Receiver",
           "vendorID" : "0x46d"
         }
+      },
+      "scrolling" : {
+        "reverse" : {
+          "vertical" : true
+        }
+      }
+    },
+    {
+      "if" : {
+        "device" : {
+          "category" : "mouse",
+          "productID" : "0x5007",
+          "productName" : "AM INFINITY 8K MOUSE",
+          "vendorID" : "0x3151"
+        }
+      },
+      "pointer" : {
+        "acceleration" : 0.8,
+        "disableAcceleration" : true,
+        "redirectsToScroll" : false,
+        "speed" : "unset"
       },
       "scrolling" : {
         "reverse" : {

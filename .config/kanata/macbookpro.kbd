@@ -60,6 +60,10 @@
   mlsys (tap-hold $tap-time $hold-time s (layer-while-held syst))
   mrsys (tap-hold $tap-time $hold-time l (layer-while-held syst))
   mfunc (tap-hold-press $tap-time $hold-time fn (layer-while-held func))
+
+  ;; Shortcut aliases
+  bwfll S-M-l
+  cadel C-A-del
 )
 
 ;; Main layer
@@ -93,8 +97,8 @@
 (deflayer func
   _      f1     f2     f3     f4     f5     f6     f7     f8     f9     f10    f11    f12
   _      _      _      _      _      _      _      _      _      _      _      _      _      del
-  _      _      _      _      _      _      _      _      _      _      _      _      _      _
-  _      _      _      _      _      _      _      _      _      _      _      _      _
+  _      _      _      _      _      _      _      _      _      @cadel _      _      _      _
+  _      _      _      _      _      _      _      _      _      @bwfll _      _      _
   _      _      _      _      _      _      _      _      _      _      _      ▲      _
   lctl   fn     _      del            @mhypr              _      _      home   ▼      end
 )
