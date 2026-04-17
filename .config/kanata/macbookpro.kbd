@@ -1,5 +1,6 @@
 (defcfg
   process-unmapped-keys yes
+  danger-enable-cmd yes
   log-layer-changes no
   concurrent-tap-hold yes
 
@@ -62,6 +63,11 @@
   mrsys (tap-hold $tap-time $hold-time l (layer-while-held syst))
   mfunc (tap-hold-press $tap-time $hold-time fn (layer-while-held func))
 
+  ;; Apple Music Alias (macOS)
+  ▶⏸ (cmd osascript /Users/sung_/.dotfiles/scripts/music_playpause.scpt)
+  ▶▶ (cmd osascript /Users/sung_/.dotfiles/scripts/music_next.scpt)
+  ◀◀ (cmd osascript /Users/sung_/.dotfiles/scripts/music_previous.scpt)
+
   ;; Shortcut aliases
   bwfll S-M-l
   cadel C-A-del
@@ -69,7 +75,7 @@
 
 ;; Main layer
 (deflayer main
-  _      🔅     🔆     mctl   sls    dtn    dnd     ◀◀     ▶⏸     ▶▶     🔇     🔉     🔊
+  _      🔅     🔆     mctl   sls    dtn    dnd   @◀◀   @▶⏸   @▶▶    🔇     🔉     🔊
   grv    1      2      3      4      5      6      7      8      9      0      -      =      bspc
   tab    q      w      e      r      t      y      u      i      o      p      [      ]      \
   esc   @mlctl @mlsys @mlmet @mlalt  g      h     @mralt @mrmet @mrsys @mrctl  '      _
@@ -98,7 +104,7 @@
 (deflayer func
   _      f1     f2     f3     f4     f5     f6     f7     f8     f9     f10    f11    f12
   _      _      _      _      _      _      _      _      _      _      _      _      _      del
-  _      _      _      _      _      _      _      _      _      @cadel @pinin _      _      _
+  _      _      _      _      _      _      _      _      @icmin @cadel @pinin _      _      _
   _      _      _      _      _      _      _      _      _      @bwfll _      _      _
   _      _      _      _      _      _      _      _      _      _      _      ▲      _
   lctl   fn     _      del            @mhypr              _      _      home   ▼      end
