@@ -21,4 +21,5 @@
 .vscode/argv.json
 .vscode/extensions
 scripts/auto_stow/bin
+scripts/reset_port.sh
 zsh/plugins
