@@ -47,11 +47,13 @@ export FZF_DEFAULT_OPTS="--height 60% \
 export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -n 10'"
 export FZF_COMPLETION_DIR_COMMANDS="cd pushd rmdir tree ls"
 
+# bitwarden ssh socket
+export SSH_AUTH_SOCK="$HOME/.bitwarden-ssh-agent.sock"
+
 # golang
 export GOPATH="$WORKSPACE/go"
 export GOBIN="$WORKSPACE/go/bin"
 export GOCACHE="$XDG_CACHE_HOME/go-build"
-
 
 # PATH
 export PATH="$GOBIN:$PATH"
