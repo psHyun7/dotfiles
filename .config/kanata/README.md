@@ -9,6 +9,36 @@ This directory contains a shared kanata config for MacBook keyboards. The instal
 - The command-enabled kanata binary because the configs use `danger-enable-cmd yes`
 - Karabiner VirtualHIDDevice installed, activated, and approved in macOS Privacy & Security settings
 
+Do not install the `karabiner-elements` Homebrew cask (or the full Karabiner-Elements app) on a machine that runs kanata. Karabiner-Elements bundles its own copy of the same `org.pqrs.Karabiner-DriverKit-VirtualHIDDevice` system extension, and the two installs can overwrite each other's driver version, leaving kanata unable to open the virtual keyboard.
+
+### Installing just the VirtualHIDDevice driver
+
+Install the driver directly from its own project instead of through Karabiner-Elements:
+
+1. Download the latest `.pkg` from the [Karabiner-DriverKit-VirtualHIDDevice releases page](https://github.com/pqrs-org/Karabiner-DriverKit-VirtualHIDDevice/releases).
+2. Run the `.pkg` installer. It installs a hidden manager app at:
+   ```text
+   /Applications/.Karabiner-VirtualHIDDevice-Manager.app
+   ```
+3. Activate the driver:
+   ```sh
+   sudo "/Applications/.Karabiner-VirtualHIDDevice-Manager.app/Contents/MacOS/Karabiner-VirtualHIDDevice-Manager" activate
+   ```
+4. Approve the extension in System Settings → Privacy & Security → Driver Extensions (or the approval banner), then **restart macOS**. DriverKit only fully swaps in a new driver version after a reboot, even after `activate`/`forceActivate` reports success.
+5. Confirm the version that's actually running:
+   ```sh
+   systemextensionsctl list | grep -i pqrs
+   ```
+   Compare it against the manager app's bundled version:
+   ```sh
+   /usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" \
+     "/Applications/.Karabiner-VirtualHIDDevice-Manager.app/Contents/Info.plist"
+   ```
+   If they don't match after a reboot, run `forceActivate` and restart again:
+   ```sh
+   sudo "/Applications/.Karabiner-VirtualHIDDevice-Manager.app/Contents/MacOS/Karabiner-VirtualHIDDevice-Manager" forceActivate
+   ```
+
 Files matching `*.secret.kbd` are ignored by Git. Transfer them securely between machines or recreate them locally; do not commit them.
 
 If a machine already has `macbook12.secret.kbd` or `macbookpro.secret.kbd`, rename it locally:
@@ -28,11 +58,7 @@ Clone or pull this repository, then place the matching secret file beside its pr
 .config/kanata/macbook.secret.kbd
 ```
 
-Install and activate Karabiner VirtualHIDDevice. The expected manager application is:
-
-```text
-/Applications/.Karabiner-VirtualHIDDevice-Manager.app
-```
+Install and activate Karabiner VirtualHIDDevice as described above.
 
 Run the installer. It checks `/opt/homebrew/bin/kanata`, `/usr/local/bin/kanata`, and the downloaded Intel binary location, in that order. You can also pass a binary path explicitly.
 

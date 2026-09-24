@@ -63,26 +63,16 @@ cask "discord"
 # Web browser
 cask "firefox"
 cask "font-jetbrains-mono-nerd-font"
-# Terminal emulator that uses platform-native UI and GPU acceleration
-cask "ghostty"
-# Web browser
-cask "google-chrome"
 # Free and open-source media player
 cask "iina"
 # Menu bar calendar
 cask "itsycal"
-# Menu bar manager
-cask "jordanbaird-ice"
-# Keyboard customiser
-cask "karabiner-elements"
 # Tool to prevent the system from going into sleep mode
 cask "keepingyouawake"
 # Customise mouse behavior
 cask "linearmouse"
 # Provides updates to various Microsoft products
 cask "microsoft-auto-update"
-# Multi-platform web browser
-cask "microsoft-edge"
 # Office suite
 cask "microsoft-office"
 # GameStream client
@@ -101,8 +91,6 @@ cask "synology-drive"
 cask "the-unarchiver"
 # Open-source code editor
 cask "visual-studio-code"
-# GPU-accelerated cross-platform terminal emulator and multiplexer
-cask "wezterm"
 # Connect to Windows
 cask "windows-app"
 vscode "bierner.markdown-checkbox"
