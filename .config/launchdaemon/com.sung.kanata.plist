@@ -7,9 +7,9 @@
 
   <key>ProgramArguments</key>
   <array>
-    <string>/opt/homebrew/bin/kanata</string>
+    <string>/usr/local/bin/kanata</string>
     <string>-c</string>
-    <string>/Users/sung/.config/kanata/macbookpro.kbd</string>
+    <string>/Users/sung_/.dotfiles/.config/kanata/macbook12.kbd</string>
   </array>
 
   <key>RunAtLoad</key>
