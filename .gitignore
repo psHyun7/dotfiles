@@ -3,7 +3,7 @@
 .CFUserTextEncoding
 .config/cache
 .config/homebrew/trust.json.lock
-.config/kanata/macbookpro.secret.kbd
+.config/kanata/*.secret.kbd
 .config/local/share
 .config/nvim
 .config/zsh/.zcompdump

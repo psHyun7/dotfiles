@@ -211,6 +211,19 @@ function fgb() {
 		--bind='ctrl-d:preview-half-page-down'
 }
 
+# +--------+
+# | Pacman |
+# +--------+
+
+# TODO can improve that with a bind to switch to what was installed
+fpac() {
+    pacman -Slq | fzf --multi --reverse --preview 'pacman -Si {1}' | xargs -ro sudo pacman -S
+}
+
+fyay() {
+    yay -Slq | fzf --multi --reverse --preview 'yay -Si {1}' | xargs -ro yay -S
+}
+
 # +------+
 # | tmux |
 # +------+
@@ -285,29 +298,29 @@ fwork() {
     [ -n "$result" ] && cd ~/workspace/$result
 }
 
-# # Open pdf with Zathura
-# fpdf() {
-#     result=$(find -type f -name '*.pdf' | fzf --bind "ctrl-r:reload(find -type f -name '*.pdf')" --preview "pdftotext {} - | less")
-#     [ -n "$result" ] && nohup zathura "$result" &> /dev/null & disown
-# }
+# Open pdf with Zathura
+fpdf() {
+    result=$(find -type f -name '*.pdf' | fzf --bind "ctrl-r:reload(find -type f -name '*.pdf')" --preview "pdftotext {} - | less")
+    [ -n "$result" ] && nohup zathura "$result" &> /dev/null & disown
+}
 
-# # Open epubs with Zathura
-# fepub() {
-#     result=$(find -type f -name '*.epub' | fzf --bind "ctrl-r:reload(find -type f -name '*.epub')")
-#     [ -n "$result" ] && nohup zathura "$result" &> /dev/null & disown
-# }
+# Open epubs with Zathura
+fepub() {
+    result=$(find -type f -name '*.epub' | fzf --bind "ctrl-r:reload(find -type f -name '*.epub')")
+    [ -n "$result" ] && nohup zathura "$result" &> /dev/null & disown
+}
 
-# # Open freemind mindmap
-# fmind() {
-#     local folders=("$CLOUD/knowledge_base" "$WORKSPACE/alexandria")
+# Open freemind mindmap
+fmind() {
+    local folders=("$CLOUD/knowledge_base" "$WORKSPACE/alexandria")
 
-#     files=""
-#     for root in ${folders[@]}; do
-#         files="$files $(find $root -name '*.mm')"
-#     done
-#     result=$(echo "$files" | fzf -m --height 60% --border sharp | tr -s "\n" " ")
-#     [ -n "$result" ] && nohup freemind $(echo $result) &> /dev/null & disown
-# }
+    files=""
+    for root in ${folders[@]}; do
+        files="$files $(find $root -name '*.mm')"
+    done
+    result=$(echo "$files" | fzf -m --height 60% --border sharp | tr -s "\n" " ")
+    [ -n "$result" ] && nohup freemind $(echo $result) &> /dev/null & disown
+}
 
 # List tracking spreadsheets (productivity, money ...)
 ftrack() {

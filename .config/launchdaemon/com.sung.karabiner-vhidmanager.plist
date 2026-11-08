@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>Label</key>
-    <string>com.example.karabiner-vhidmanager</string>
+    <string>com.sung.karabiner-vhidmanager</string>
     <key>ProgramArguments</key>
     <array>
         <string>/Applications/.Karabiner-VirtualHIDDevice-Manager.app/Contents/MacOS/Karabiner-VirtualHIDDevice-Manager</string>
