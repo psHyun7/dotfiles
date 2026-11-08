@@ -9,7 +9,7 @@
   <array>
     <string>KANATA_BINARY_PATH</string>
     <string>-c</string>
-    <string>/Library/Application Support/Kanata/macbook.kbd</string>
+    <string>KANATA_CONFIG_PATH</string>
   </array>
 
   <key>RunAtLoad</key>
@@ -17,6 +17,9 @@
 
   <key>KeepAlive</key>
   <true/>
+
+  <key>ProcessType</key>
+  <string>Interactive</string>
 
   <key>StandardOutPath</key>
   <string>/Library/Logs/Kanata/kanata.out.log</string>

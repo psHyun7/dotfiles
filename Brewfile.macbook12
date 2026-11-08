@@ -1,3 +1,5 @@
+# Intel MacBook 12 (legacy). Homebrew no longer officially supports its macOS, so some installs may fail.
+# Use with: brew bundle --file ~/.dotfiles/Brewfile.macbook12
 # Automate deployment, configuration, and upgrading
 brew "ansible"
 # Secure and free password manager for all of your devices

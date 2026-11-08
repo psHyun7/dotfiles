@@ -1,3 +1,4 @@
+# Apple silicon MacBooks. The Intel MacBook 12 uses Brewfile.macbook12.
 tap "sikarugir-app/sikarugir", "https://github.com/Sikarugir-App/homebrew-sikarugir"
 # Automate deployment, configuration, and upgrading
 brew "ansible"

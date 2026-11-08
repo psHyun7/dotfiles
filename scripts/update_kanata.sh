@@ -1,16 +1,20 @@
 #!/bin/zsh
-# Upgrades kanata-cmd and the Karabiner VirtualHIDDevice driver to the newest versions that work together.
+# Upgrades kanata and the Karabiner VirtualHIDDevice driver to the newest versions that work together.
 # Usage: update_kanata.sh [--check]    --check only reports versions and health.
 # Set KANATA_PRERELEASE=1 to also accept kanata prereleases.
 set -euo pipefail
 autoload -Uz is-at-least
 
-kanata_bin=/opt/homebrew/bin/kanata-cmd
+# kanata runs as root, so its binary lives in a root-owned folder other programs can't modify.
+kanata_bin='/Library/Application Support/Kanata/kanata'
+kanata_label=com.sung.kanata
+vhid_label=com.sung.karabiner-vhiddaemon
 manager_app=/Applications/.Karabiner-VirtualHIDDevice-Manager.app
 driver_repo=pqrs-org/Karabiner-DriverKit-VirtualHIDDevice
 driver_team=G43BCU2T37
 check_only=0; [[ ${1:-} == --check ]] && check_only=1
 restart_kanata=0
+binary_changed=0
 
 case $(uname -m) in
   arm64) arch=arm64 ;;
@@ -51,7 +55,7 @@ if [[ -n $supported ]]; then
 fi
 driver_want=${driver_tag#v}
 
-print -r -- "kanata-cmd: ${have:-not installed} (latest ${want})"
+print -r -- "kanata: ${have:-not installed} (latest ${want})"
 print -r -- "Karabiner driver: ${driver_have:-not installed} (newest that kanata ${tag} supports: ${driver_want:-unknown})"
 
 if (( ! check_only )); then
@@ -69,42 +73,48 @@ if (( ! check_only )); then
     print -r -- "Installing Karabiner driver $driver_want..."
     sudo installer -pkg "$pkg" -target /
     "$manager_app/Contents/MacOS/Karabiner-VirtualHIDDevice-Manager" activate || print -u2 'If macOS asks, approve the driver under Driver Extensions.'
-    launchctl print system/org.pqrs.Karabiner-VirtualHIDDevice-Daemon >/dev/null 2>&1 && sudo launchctl kickstart -k system/org.pqrs.Karabiner-VirtualHIDDevice-Daemon
+    launchctl print system/$vhid_label >/dev/null 2>&1 && sudo launchctl kickstart -k system/$vhid_label
     restart_kanata=1
   fi
 
   if [[ $have == $want ]]; then
     :
   elif [[ -n $have && $(core $have) != $(core $want) ]] && is-at-least "$(core $want)" "$(core $have)"; then
-    print -u2 "kanata-cmd $have is newer than the latest release $want; leaving it."
+    print -u2 "kanata $have is newer than the latest release $want; leaving it."
   else
     zip=macos-binaries-$arch.zip
     url=https://github.com/jtroo/kanata/releases/download/$tag
     curl -fsSL -o "$work/$zip" "$url/$zip"
     curl -fsSL -o "$work/sha256sums" "$url/sha256sums"
     [[ $(awk -v f="$zip" '$2 == f {print $1}' "$work/sha256sums") == $(shasum -a 256 "$work/$zip" | awk '{print $1}') ]] || { print -u2 "Checksum mismatch for $zip."; exit 1; }
-    unzip -q -o "$work/$zip" "kanata_macos_cmd_allowed_$arch" -d "$work"
-    install -m 755 "$work/kanata_macos_cmd_allowed_$arch" "$kanata_bin"
-    print -r -- "Installed kanata-cmd $want."
+    unzip -q -o "$work/$zip" "kanata_macos_$arch" -d "$work"
+    sudo install -d -o root -g wheel -m 755 "${kanata_bin:h}"
+    sudo install -o root -g wheel -m 755 "$work/kanata_macos_$arch" "$kanata_bin"
+    print -r -- "Installed kanata $want."
     restart_kanata=1
+    binary_changed=1
   fi
 
-  if (( restart_kanata )) && launchctl print system/org.kanata >/dev/null 2>&1; then
-    sudo launchctl kickstart -k system/org.kanata
+  if (( restart_kanata )) && launchctl print system/$kanata_label >/dev/null 2>&1; then
+    sudo launchctl kickstart -k system/$kanata_label
     sleep 3
+  fi
+  if (( binary_changed )); then
+    print -r -- "kanata's binary changed, so macOS may need permission again: allow '$kanata_bin' under Accessibility and Input Monitoring."
   fi
 fi
 
+if [[ ! -f /Library/LaunchDaemons/$kanata_label.plist ]]; then
+  print -r -- 'kanata is not set to start at boot yet. Run ~/.dotfiles/scripts/install_kanata_launchd.zsh.'
+  exit 0
+fi
 problems=()
 ext=$(systemextensionsctl list 2>/dev/null | grep 'Karabiner-DriverKit-VirtualHIDDevice' || true)
 [[ $ext == *'[activated enabled]'* ]] || problems+=('Driver extension is off: System Settings > General > Login Items & Extensions > Driver Extensions')
 [[ $(hidutil list 2>/dev/null) == *'Karabiner DriverKit VirtualHIDKeyboard'* ]] || problems+=('Karabiner virtual keyboard is missing')
-[[ $(launchctl print system/org.kanata 2>/dev/null) == *'state = running'* ]] || problems+=('kanata service (org.kanata) is not running')
+[[ $(launchctl print system/$kanata_label 2>/dev/null) == *'state = running'* ]] || problems+=("kanata service ($kanata_label) is not running")
 if (( ${#problems} )); then
-  print -u2 -l -- 'kanata is not healthy:' "  ${^problems}"
+  print -u2 -l -- 'kanata is not healthy:' "  ${^problems}" 'See Troubleshooting in ~/.dotfiles/.config/kanata/README.md.'
   exit 1
 fi
 print -r -- 'kanata is running with the Karabiner virtual keyboard.'
-if (( restart_kanata )); then
-  print -r -- 'kanata-cmd changed. If a shortcut stops working, allow kanata-cmd under Accessibility again.'
-fi

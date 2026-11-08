@@ -1,4 +1,4 @@
-# Run `topgrade` to upgrade everything, including kanata-cmd and the Karabiner driver.
+# Run `topgrade` to upgrade everything, including kanata and the Karabiner driver.
 
 [misc]
 # Remove old versions and caches after upgrading
