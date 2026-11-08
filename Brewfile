@@ -1,11 +1,16 @@
+tap "sikarugir-app/sikarugir", "https://github.com/Sikarugir-App/homebrew-sikarugir"
 # Automate deployment, configuration, and upgrading
 brew "ansible"
 # Secure and free password manager for all of your devices
 brew "bitwarden-cli"
 # GNU internationalization (i18n) and localization (l10n) library
 brew "gettext"
+# Create and run Linux containers using lightweight virtual machines
+brew "container"
 # GNU File, Shell, and Text utilities
 brew "coreutils"
+# Get a file from an HTTP, HTTPS or FTP server
+brew "curl"
 # Good-lookin' diffs with diff-highlight and more
 brew "diff-so-fancy"
 # Simple, fast and user-friendly alternative to find
@@ -22,10 +27,18 @@ brew "gawk"
 brew "gcc"
 # GitHub command-line tool
 brew "gh"
+# Distributed revision control system
+brew "git"
 # Open source programming language to build simple/reliable/efficient software
 brew "go"
+# Fast linters runner for Go
+brew "golangci-lint"
+# GNU grep, egrep and fgrep
+brew "grep"
 # Open-source video transcoder available for Linux, Mac, and Windows
 brew "handbrake"
+# Mac App Store command-line interface
+brew "mas"
 # Matroska media files manipulation tools
 brew "mkvtoolnix"
 # Ambitious Vim-fork focused on extensibility and agility
@@ -36,8 +49,14 @@ brew "ocrmypdf"
 brew "tree"
 # Password manager
 brew "pass"
+# Package compiler and linker metadata toolkit
+brew "pkgconf"
+# Interpreted, interactive, object-oriented programming language
+brew "python@3.11"
 # Search tool like grep and The Silver Searcher
 brew "ripgrep"
+# Safe, concurrent, practical language
+brew "rust"
 # Organize software neatly under a single directory tree (e.g. /usr/local)
 brew "stow"
 # Terminal multiplexer
@@ -58,60 +77,57 @@ brew "zoxide"
 cask "appcleaner"
 # Desktop password and login vault
 cask "bitwarden"
+# Web browser focusing on privacy
+cask "brave-browser"
 # Voice and text chat software
 cask "discord"
-# Web browser
-cask "firefox"
+# Assign keys, and then decorate and label them
+cask "elgato-stream-deck"
+# Software custom-built for content creation
+cask "elgato-wave-link"
 cask "font-jetbrains-mono-nerd-font"
-# Terminal emulator that uses platform-native UI and GPU acceleration
-cask "ghostty"
-# Web browser
-cask "google-chrome"
 # Free and open-source media player
 cask "iina"
-# Menu bar calendar
-cask "itsycal"
-# Menu bar manager
-cask "jordanbaird-ice"
-# Keyboard customiser
-cask "karabiner-elements"
-# Tool to prevent the system from going into sleep mode
-cask "keepingyouawake"
-# Customise mouse behavior
-cask "linearmouse"
+# Cable-free audio router
+cask "loopback"
 # Provides updates to various Microsoft products
 cask "microsoft-auto-update"
-# Multi-platform web browser
-cask "microsoft-edge"
 # Office suite
 cask "microsoft-office"
-# GameStream client
-cask "moonlight"
 # Knowledge base that works on top of a local folder of plain text Markdown files
 cask "obsidian"
+# Replacement for Docker Desktop
+cask "orbstack"
 # Home media player
 cask "plex"
 # VPN client focusing on security
 cask "protonvpn"
+cask "sikarugir"
 # Sound and audio controller
 cask "soundsource"
 # Sync and backup service to Synology NAS drives
 cask "synology-drive"
+# Mesh VPN based on WireGuard
+cask "tailscale-app"
 # Unpacks archive files
 cask "the-unarchiver"
 # Open-source code editor
 cask "visual-studio-code"
-# GPU-accelerated cross-platform terminal emulator and multiplexer
-cask "wezterm"
+# Menu bar app for USB-C cable diagnostics
+cask "whatcable"
 # Connect to Windows
 cask "windows-app"
+# Gecko based web browser
+cask "zen"
+mas "Amphetamine", id: 937984704
+mas "PDF Expert", id: 1055273043
+mas "WireGuard", id: 1451685025
 vscode "bierner.markdown-checkbox"
 vscode "bierner.markdown-emoji"
+vscode "capacity-profile.capacity-profile-bicep"
 vscode "davidanson.vscode-markdownlint"
 vscode "docker.docker"
 vscode "eamodio.gitlens"
-vscode "github.copilot"
-vscode "github.copilot-chat"
 vscode "golang.go"
 vscode "hbenl.vscode-test-explorer"
 vscode "keewek.compare-helper"
@@ -156,4 +172,9 @@ vscode "pepri.subtitles-editor"
 vscode "premparihar.gotestexplorer"
 vscode "redhat.vscode-yaml"
 vscode "streetsidesoftware.code-spell-checker"
-vscode "teamsdevapp.vscode-ai-foundry"
+go "github.com/go-delve/delve/cmd/dlv"
+go "github.com/golangci/golangci-lint/cmd/golangci-lint"
+go "github.com/rakyll/hey"
+go "golang.org/x/tools/gopls"
+go "honnef.co/go/tools/cmd/staticcheck"
+go "mvdan.cc/gofumpt"

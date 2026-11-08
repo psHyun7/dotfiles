@@ -1,0 +1,14 @@
+# Run `topgrade` to upgrade everything, including kanata-cmd and the Karabiner driver.
+
+[misc]
+# Remove old versions and caches after upgrading
+cleanup = true
+# Docker image updates fail whenever OrbStack isn't running
+disable = ["containers"]
+
+[brew]
+# Also upgrade apps that normally update themselves
+greedy_cask = true
+
+[commands]
+"kanata and Karabiner driver" = "~/.dotfiles/scripts/update_kanata.sh"

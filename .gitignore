@@ -2,6 +2,7 @@
 .azure
 .CFUserTextEncoding
 .config/cache
+.config/homebrew/trust.json.lock
 .config/kanata/macbookpro.secret.kbd
 .config/local/share
 .config/nvim
@@ -18,8 +19,7 @@
 .ssh
 .Trash
 .viminfo
-.vscode/argv.json
-.vscode/extensions
+.vscode
 scripts/auto_stow/bin
 scripts/reset_port.sh
 zsh/plugins
