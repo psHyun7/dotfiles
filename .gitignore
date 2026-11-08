@@ -2,7 +2,7 @@
 .azure
 .CFUserTextEncoding
 .config/cache
-.config/homebrew/trust.json.lock
+.config/homebrew
 .config/kanata/*.secret.kbd
 .config/local/share
 .config/nvim

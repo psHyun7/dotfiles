@@ -91,10 +91,12 @@ cask "font-jetbrains-mono-nerd-font"
 cask "iina"
 # Cable-free audio router
 cask "loopback"
-# Provides updates to various Microsoft products
-cask "microsoft-auto-update"
-# Office suite
-cask "microsoft-office"
+# Spreadsheet software
+cask "microsoft-excel"
+# Presentation software
+cask "microsoft-powerpoint"
+# Word processor
+cask "microsoft-word"
 # Knowledge base that works on top of a local folder of plain text Markdown files
 cask "obsidian"
 # Replacement for Docker Desktop

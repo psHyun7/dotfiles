@@ -10,11 +10,12 @@ templates="$repo_root/.config/launchdaemon"
 labels=(com.sung.karabiner-vhiddaemon com.sung.kanata)
 old_labels=(org.kanata org.pqrs.Karabiner-VirtualHIDDevice-Daemon com.sung.karabiner-vhidmanager)
 
-for f in "$config" "$secret" "$templates/${^labels}.plist"; do
+for f in "$config" "$secret" "$templates/${^labels[@]}.plist"; do
   [[ -f $f ]] || { print -u2 "Missing: $f"; exit 1; }
 done
 
-"$repo_root/scripts/update_kanata.sh"
+# The health check runs at the end, after the LaunchDaemons are rewritten.
+"$repo_root/scripts/update_kanata.sh" --no-health-check
 "$kanata_bin" --check -c "$config" >/dev/null
 
 work=$(mktemp -d)
@@ -31,8 +32,8 @@ done
 for label in $labels; do
   cp "$templates/$label.plist" "$work/$label.plist"
   if [[ $label == com.sung.kanata ]]; then
-    plutil -replace ProgramArguments.0 -string "$kanata_bin" "$work/$label.plist"
-    plutil -replace ProgramArguments.2 -string "$config" "$work/$label.plist"
+    # plutil -replace on an array index inserts rather than replaces, so set the whole array.
+    plutil -replace ProgramArguments -json "[\"$kanata_bin\", \"-c\", \"$config\"]" "$work/$label.plist"
   fi
   sudo install -o root -g wheel -m 644 "$work/$label.plist" "/Library/LaunchDaemons/$label.plist"
   sudo launchctl enable "system/$label"

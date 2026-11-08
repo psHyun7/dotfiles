@@ -1,6 +1,7 @@
 #!/bin/zsh
 # Upgrades kanata and the Karabiner VirtualHIDDevice driver to the newest versions that work together.
-# Usage: update_kanata.sh [--check]    --check only reports versions and health.
+# Usage: update_kanata.sh [--check | --no-health-check]
+#   --check only reports versions and health; --no-health-check skips the final health check.
 # Set KANATA_PRERELEASE=1 to also accept kanata prereleases.
 set -euo pipefail
 autoload -Uz is-at-least
@@ -12,7 +13,11 @@ vhid_label=com.sung.karabiner-vhiddaemon
 manager_app=/Applications/.Karabiner-VirtualHIDDevice-Manager.app
 driver_repo=pqrs-org/Karabiner-DriverKit-VirtualHIDDevice
 driver_team=G43BCU2T37
-check_only=0; [[ ${1:-} == --check ]] && check_only=1
+check_only=0; skip_health=0
+case ${1:-} in
+  --check) check_only=1 ;;
+  --no-health-check) skip_health=1 ;;
+esac
 restart_kanata=0
 binary_changed=0
 
@@ -104,6 +109,7 @@ if (( ! check_only )); then
   fi
 fi
 
+(( skip_health )) && exit 0
 if [[ ! -f /Library/LaunchDaemons/$kanata_label.plist ]]; then
   print -r -- 'kanata is not set to start at boot yet. Run ~/.dotfiles/scripts/install_kanata_launchd.zsh.'
   exit 0
@@ -114,7 +120,9 @@ ext=$(systemextensionsctl list 2>/dev/null | grep 'Karabiner-DriverKit-VirtualHI
 [[ $(hidutil list 2>/dev/null) == *'Karabiner DriverKit VirtualHIDKeyboard'* ]] || problems+=('Karabiner virtual keyboard is missing')
 [[ $(launchctl print system/$kanata_label 2>/dev/null) == *'state = running'* ]] || problems+=("kanata service ($kanata_label) is not running")
 if (( ${#problems} )); then
-  print -u2 -l -- 'kanata is not healthy:' "  ${^problems}" 'See Troubleshooting in ~/.dotfiles/.config/kanata/README.md.'
+  last_error=$(grep -E '\[ERROR\]|^Error:|^error:' /Library/Logs/Kanata/kanata.err.log 2>/dev/null | tail -1 || true)
+  [[ -n $last_error ]] && problems+=("Latest kanata error: $last_error")
+  print -u2 -l -- 'kanata is not healthy:' "  ${^problems[@]}" 'See Troubleshooting in ~/.dotfiles/.config/kanata/README.md.'
   exit 1
 fi
 print -r -- 'kanata is running with the Karabiner virtual keyboard.'
